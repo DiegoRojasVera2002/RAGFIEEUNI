@@ -4,25 +4,16 @@
     {
       "src": "main.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/",
-      "dest": "/index.html"
+      "dest": "/main.py"
     },
     {
       "src": "/(api/.*)",
       "dest": "/main.py"
     }
-  ],
-  "functions": {
-    "main.py": {
-      "maxDuration": 30
-    }
-  }
+  ]
 }
