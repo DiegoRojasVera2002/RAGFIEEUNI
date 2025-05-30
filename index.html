@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG UNI - Asistente Académico</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #8B0000;      /* Guinda UNI */
+            --primary-dark: #5F0000;       /* Guinda oscuro */
+            --secondary-color: #f8fafc;
+            --accent-color: #CD853F;       /* Dorado/beige */
+            --text-color: #1f2937;
+            --text-light: #6b7280;
+            --border-color: #e5e7eb;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --success-color: #10b981;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #8B0000 0%, #5F0000 50%, #2D0000 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--primary-color);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            box-shadow: 0 8px 20px rgba(139, 0, 0, 0.3);
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .chat-container {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            height: 650px;
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+            border: 3px solid var(--primary-color);
+        }
+
+        .chat-header {
+            padding: 25px 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-radius: 22px 22px 0 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            background: linear-gradient(180deg, #fefefe 0%, #f9f9f9 100%);
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 25px;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 75%;
+            padding: 18px 24px;
+            border-radius: 20px;
+            position: relative;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-bottom-right-radius: 8px;
+            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3);
+        }
+
+        .message.assistant .message-content {
+            background: var(--white);
+            color: var(--text-color);
+            border-bottom-left-radius: 8px;
+            border: 2px solid #f0f0f0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 12px;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, var(--accent-color), #B8860B);
+            color: white;
+            order: 2;
+        }
+
+        .message.assistant .message-avatar {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+
+        .chat-input-container {
+            padding: 25px;
+            background: white;
+            border-top: 2px solid var(--primary-color);
+            border-radius: 0 0 22px 22px;
+        }
+
+        .chat-input-form {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 18px 25px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary-dark);
+            box-shadow: 0 0 0 4px rgba(139, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .send-button {
+            width: 55px;
+            height: 55px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(139, 0, 0, 0.3);
+        }
+
+        .send-button:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.4);
+        }
+
+        .send-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-color);
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            animation: bounce 1.4s ease-in-out infinite both;
+        }
+
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        .error-message {
+            background: #fef2f2;
+            color: var(--error-color);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #fecaca;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                justify-content: center;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .chat-container {
+                height: 550px;
+                margin: 0 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .chat-input {
+                font-size: 16px; /* Prevenir zoom en iOS */
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header fade-in">
+            <h1>
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                RAG UNI - Asistente Académico
+            </h1>
+            <p>Tu asistente inteligente para consultas sobre el sistema académico de la Universidad Nacional de Ingeniería</p>
+        </div>
+
+        <div class="main-content">
+            <div class="chat-container fade-in">
+                <div class="chat-header">
+                    <h3>
+                        <i class="fas fa-graduation-cap"></i>
+                        Asistente Académico FIEE-UNI
+                    </h3>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message assistant">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            ¡Hola! 👋 Soy tu asistente académico de la FIEE-UNI. Estoy aquí para ayudarte con información sobre:
+                            <br><br>
+                            📅 <strong>Cronogramas y fechas importantes</strong><br>
+                            📋 <strong>Trámites y procedimientos académicos</strong><br>
+                            💰 <strong>Costos y formas de pago</strong><br>
+                            📚 <strong>Requisitos y documentación</strong><br>
+                            🎓 <strong>Procesos de matrícula y traslados</strong><br>
+                            <br>
+                            ¿En qué puedo ayudarte hoy?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <form class="chat-input-form" id="chatForm">
+                        <input 
+                            type="text" 
+                            class="chat-input" 
+                            id="chatInput" 
+                            placeholder="Escribe tu consulta académica aquí..."
+                            autocomplete="off"
+                        >
+                        <button type="submit" class="send-button" id="sendButton">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // REEMPLAZA TODA LA SECCIÓN <script> EN TU index.html CON ESTO:
+
+class StreamingRAGChatbot {
+    constructor() {
+        this.chatForm = document.getElementById('chatForm');
+        this.chatInput = document.getElementById('chatInput');
+        this.chatMessages = document.getElementById('chatMessages');
+        this.sendButton = document.getElementById('sendButton');
+        
+        this.initializeEventListeners();
+        this.isLoading = false;
+        this.currentStreamingMessage = null;
+        this.chatHistory = [];
+    }
+
+    initializeEventListeners() {
+        this.chatForm.addEventListener('submit', (e) => this.handleSubmit(e));
+
+        this.chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                this.handleSubmit(e);
+            }
+        });
+
+        // Auto-focus en el input
+        this.chatInput.focus();
+    }
+
+    async handleSubmit(e) {
+        e.preventDefault();
+        
+        const message = this.chatInput.value.trim();
+        if (!message || this.isLoading) return;
+
+        // Mostrar mensaje del usuario
+        this.addMessage(message, 'user');
+        this.chatInput.value = '';
+        this.setLoading(true);
+
+        try {
+            // Intentar streaming primero
+            await this.sendStreamingMessage(message);
+        } catch (error) {
+            console.error('Streaming failed, trying fallback:', error);
+            // Fallback a API tradicional si streaming falla
+            try {
+                await this.sendTraditionalMessage(message);
+            } catch (fallbackError) {
+                this.addMessage('Lo siento, hubo un error al procesar tu consulta. Por favor, intenta nuevamente. 😔', 'assistant', true);
+                console.error('Both streaming and fallback failed:', fallbackError);
+            }
+        } finally {
+            this.setLoading(false);
+            this.chatInput.focus();
+        }
+    }
+
+    async sendStreamingMessage(message) {
+        try {
+            const response = await fetch('/api/chat/stream', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message,
+                    session_id: 'web_session'
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Streaming failed: ${response.status}`);
+            }
+
+            // Crear mensaje vacío para streaming
+            this.currentStreamingMessage = this.createStreamingMessage();
+            
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let fullResponse = '';
+            
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                
+                const chunk = decoder.decode(value);
+                const lines = chunk.split('\n');
+                
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        try {
+                            const data = JSON.parse(line.slice(6));
+                            this.handleStreamingData(data);
+                            
+                            // Recopilar respuesta completa para historial
+                            if (data.type === 'content') {
+                                fullResponse += data.content;
+                            }
+                        } catch (e) {
+                            console.error('Error parsing streaming data:', e);
+                        }
+                    }
+                }
+            }
+
+            // Agregar al historial
+            if (fullResponse) {
+                this.chatHistory.push(message, fullResponse);
+                if (this.chatHistory.length > 6) {
+                    this.chatHistory = this.chatHistory.slice(-6);
+                }
+            }
+
+        } catch (error) {
+            console.error('Streaming error:', error);
+            throw error;
+        }
+    }
+
+    async sendTraditionalMessage(message) {
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    message: message,
+                    session_id: 'web_session',
+                    stream: false 
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            this.addMessage(data.response, 'assistant');
+            
+            // Agregar al historial
+            this.chatHistory.push(message, data.response);
+            if (this.chatHistory.length > 6) {
+                this.chatHistory = this.chatHistory.slice(-6);
+            }
+
+        } catch (error) {
+            console.error('Traditional API error:', error);
+            throw error;
+        }
+    }
+
+    createStreamingMessage() {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message assistant';
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'message-avatar';
+        avatar.innerHTML = '<i class="fas fa-robot"></i>';
+        
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        messageContent.innerHTML = '<span class="streaming-indicator"></span>';
+        
+        messageDiv.appendChild(avatar);
+        messageDiv.appendChild(messageContent);
+        
+        this.chatMessages.appendChild(messageDiv);
+        this.scrollToBottom();
+        
+        return messageContent;
+    }
+
+    handleStreamingData(data) {
+        if (!this.currentStreamingMessage) return;
+
+        switch (data.type) {
+            case 'status':
+                // Mostrar status de procesamiento
+                this.currentStreamingMessage.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-brain"></i> ${data.status}
+                        <div class="loading-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                `;
+                break;
+                
+            case 'content':
+                // Agregar contenido en tiempo real
+                if (this.currentStreamingMessage.innerHTML.includes('streaming-indicator') || 
+                    this.currentStreamingMessage.innerHTML.includes('loading')) {
+                    this.currentStreamingMessage.innerHTML = '';
+                }
+                this.currentStreamingMessage.innerHTML += data.content;
+                this.scrollToBottom();
+                break;
+                
+            case 'sources':
+                // Agregar información de fuentes
+                if (data.sources && data.sources.length > 0) {
+                    const sourcesHtml = `
+                        <div class="sources-info">
+                            <i class="fas fa-book"></i> <strong>Fuentes consultadas:</strong> ${data.sources.length} documentos académicos relevantes
+                        </div>
+                    `;
+                    this.currentStreamingMessage.innerHTML += sourcesHtml;
+                }
+                this.scrollToBottom();
+                break;
+                
+            case 'done':
+                // Streaming completado
+                this.currentStreamingMessage = null;
+                this.scrollToBottom();
+                break;
+                
+            case 'error':
+                // Error en streaming
+                this.currentStreamingMessage.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        ${data.content}
+                    </div>
+                `;
+                this.currentStreamingMessage = null;
+                break;
+        }
+    }
+
+    addMessage(content, sender, isError = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}`;
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'message-avatar';
+        avatar.innerHTML = sender === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+        
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        
+        if (isError) {
+            messageContent.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    ${content}
+                </div>
+            `;
+        } else {
+            messageContent.innerHTML = content;
+        }
+        
+        messageDiv.appendChild(avatar);
+        messageDiv.appendChild(messageContent);
+        
+        this.chatMessages.appendChild(messageDiv);
+        this.scrollToBottom();
+    }
+
+    setLoading(loading) {
+        this.isLoading = loading;
+        this.sendButton.disabled = loading;
+        
+        if (loading) {
+            this.sendButton.innerHTML = `
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+        } else {
+            this.sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        }
+    }
+
+    scrollToBottom() {
+        this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+    }
+}
+
+// Inicializar la aplicación cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    new StreamingRAGChatbot();
+});
+
+// TAMBIÉN AGREGA ESTOS ESTILOS CSS A TU index.html (dentro de <style>):
+
+/*
+.streaming-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 12px;
+    background: var(--primary-color);
+    animation: pulse 1s infinite;
+    margin-left: 4px;
+}
+
+.sources-info {
+    margin-top: 15px;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+.sources-info i {
+    color: var(--primary-color);
+    margin-right: 6px;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+*/
+    </script>
+</body>
+</html>
