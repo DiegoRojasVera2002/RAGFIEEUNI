@@ -1,0 +1,71 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-8.3.5, pluggy-1.6.0
+rootdir: C:\Users\diego\Desktop\rag-uni-vercel
+configfile: pytest.ini
+plugins: anyio-4.9.0, cov-6.1.1
+collected 12 items
+
+tests\test_rag.py ............                                           [100%]
+
+============================== warnings summary ===============================
+tests\test_rag.py:36
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:36: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:56
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:56: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:78
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:78: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:99
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:99: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:132
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:132: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:152
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:152: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:184
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:184: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:217
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:217: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:260
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:260: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:300
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:300: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:336
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:336: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:355
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:355: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.13.2-final-0 _______________
+
+Name                 Stmts   Miss  Cover   Missing
+--------------------------------------------------
+src\__init__.py          0      0   100%
+src\config.py           17      0   100%
+src\rag_service.py      72     15    79%   37, 41-43, 67-69, 75, 91-93, 110, 135-137
+src\utils.py            17      1    94%   18
+--------------------------------------------------
+TOTAL                  106     16    85%
+======================= 12 passed, 12 warnings in 3.33s =======================

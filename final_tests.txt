@@ -1,0 +1,72 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-8.3.5, pluggy-1.6.0 -- C:\Users\diego\Desktop\rag-uni-vercel\env\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\diego\Desktop\rag-uni-vercel
+configfile: pytest.ini
+plugins: anyio-4.9.0, cov-6.1.1
+collecting ... collected 12 items
+
+tests/test_rag.py::TestRAGService::test_classify_intent_fechas_detection PASSED [  8%]
+tests/test_rag.py::TestRAGService::test_classify_intent_matricula_detection PASSED [ 16%]
+tests/test_rag.py::TestRAGService::test_classify_intent_costos_detection PASSED [ 25%]
+tests/test_rag.py::TestRAGService::test_get_embedding_real_conversion PASSED [ 33%]
+tests/test_rag.py::TestRAGService::test_get_embedding_error_handling PASSED [ 41%]
+tests/test_rag.py::TestRAGService::test_search_documents_vector_query PASSED [ 50%]
+tests/test_rag.py::TestRAGService::test_cache_storage_and_retrieval PASSED [ 58%]
+tests/test_rag.py::TestRAGService::test_generate_response_with_context PASSED [ 66%]
+tests/test_rag.py::TestUtils::test_validate_query_input_validation PASSED [ 75%]
+tests/test_rag.py::TestUtils::test_performance_tracker_metrics_calculation PASSED [ 83%]
+tests/test_rag.py::TestConfig::test_config_validation_requirement_check PASSED [ 91%]
+tests/test_rag.py::test_health_endpoint_integration PASSED               [100%]
+
+============================== warnings summary ===============================
+tests\test_rag.py:36
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:36: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:56
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:56: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:78
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:78: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:99
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:99: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:132
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:132: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:152
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:152: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:184
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:184: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:217
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:217: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:260
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:260: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:300
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:300: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:336
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:336: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests\test_rag.py:355
+  C:\Users\diego\Desktop\rag-uni-vercel\tests\test_rag.py:355: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 12 passed, 12 warnings in 2.55s =======================
