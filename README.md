@@ -1,9 +1,8 @@
 # INFORME TÉCNICO
 ## Evolución y Mantenimiento del Sistema RAG FIEE-UNI
 
-**Estudiante:** [Tu Nombre]  
+**Estudiante:** Diego Alonso Rojas Vera
 **Curso:** Evolución, Mantenimiento y Administración de Sistemas Heredados  
-**Fecha:** Diciembre 2024  
 **Sistema:** RAG (Retrieval-Augmented Generation) para Asistencia Académica FIEE-UNI
 
 ---
@@ -432,4 +431,3 @@ Este laboratorio demuestra que la **evolución de sistemas heredados es no solo 
 **Total tests implementados:** 12 tests unitarios + 1 test integración  
 **Cobertura final:** 85% (objetivo superado)  
 **Funcionalidades críticas validadas:** Embeddings, búsqueda vectorial, cache, validación  
-**Fecha de finalización:** Diciembre 2024
